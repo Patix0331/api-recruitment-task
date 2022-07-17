@@ -22,7 +22,7 @@ export function genresHelper(movies: MovieData[], genres: Genre[]) {
   const filteredMovies = movies.filter(movie => {
     return uniqued.some(genre => movie.genres.includes(genre));
   });
-  return removeDuplicates(filteredMovies);
+  return sortByGenres(removeDuplicates(filteredMovies), uniqued);
 }
 
 export function sortByGenres(movies: MovieData[], genres: Genre[]) {
