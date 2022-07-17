@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc --outDir build",
+    "start": "npm run build && node build/index.js",
     "test": "jest",
     "dev": "tsnd --watch 'src/**/*.ts' --respawn ./src/index.ts"
   },
