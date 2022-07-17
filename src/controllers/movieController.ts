@@ -21,4 +21,10 @@ export async function genresMovies(genres: Genre[]) {
   const movies = await repository.movies();
   return genresHelper(movies, genres);
 }
+
+export async function durationAndGenresMovies(duration: number, genres: Genre[]) {
+  const movies = await repository.movies();
+  const genresFiltered = genresHelper(movies, genres);
+  const filteredMovies = durationHelper(genresFiltered, duration);
+  return filteredMovies;
 }
