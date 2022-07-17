@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { addMovie, randomMovie } from '../controllers/movieController';
+import { addMovie, durationAndGenresMovies, durationMovies, genresMovies, randomMovie } from '../controllers/movieController';
 import { movieSchema } from '../schemas/movieSchema';
 import { Query, querySchema } from '../schemas/querySchema';
 
@@ -26,7 +26,14 @@ function validateQuery(req: Request, res: Response, next: NextFunction) {
 async function queryDispatcher(query: Query) {
   if (query.duration === undefined && query.genres === undefined) {
     return randomMovie();
+  } else if (query.duration && query.genres === undefined) {
+    return durationMovies(+query.duration);
+  } else if (query.genres && query.duration === undefined) {
+    return genresMovies(query.genres);
+  } else if (query.duration && query.genres) {
+    return durationAndGenresMovies(+query.duration, query.genres);
   }
+  throw new Error('unreachable');
 }
 
 movies.route('/')
