@@ -24,3 +24,17 @@ export function genresHelper(movies: MovieData[], genres: Genre[]) {
   });
   return removeDuplicates(filteredMovies);
 }
+
+export function sortByGenres(movies: MovieData[], genres: Genre[]) {
+  return movies.sort((a, b) => {
+    const alen = genres.reduce((sum, genre) => sum + (a.genres.includes(genre) ? 1 : 0), 0);
+    const blen = genres.reduce((sum, genre) => sum + (b.genres.includes(genre) ? 1 : 0), 0);
+    if (alen > blen) {
+      return -1;
+    }
+    if (alen === blen) {
+      return 0;
+    }
+    return 1;
+  });
+}
