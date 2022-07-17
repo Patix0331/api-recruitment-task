@@ -1,6 +1,6 @@
 import { repository } from "../repository/repository";
-import { Movie } from "../schemas/movieSchema";
-import { random } from "./helpers";
+import { Genre, Movie } from "../schemas/movieSchema";
+import { random, removeDuplicates } from "./helpers";
 
 export async function addMovie(movie: Movie) {
   return repository.addMovie(movie);
@@ -18,4 +18,13 @@ export async function durationMovies(duration: number) {
     return runtime > duration - 10 && runtime < duration + 10;
   });
   return random(filteredMovies)
+}
+
+export async function genresMovies(genres: Genre[]) {
+  const uniqued = [...new Set(genres)];
+  const movies = await repository.movies();
+  const filteredMovies = movies.filter(movie => {
+    return uniqued.some(genre => movie.genres.includes(genre));
+  });
+  return removeDuplicates(filteredMovies);
 }
